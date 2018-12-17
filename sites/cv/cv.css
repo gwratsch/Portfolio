@@ -1,0 +1,35 @@
+body{
+    background-color:#C9B857;
+    font-family: monospace;
+}
+aside{
+    background-color:#1F8B90;
+}
+.sectionblock1{
+    background-color:#D0985E;
+}
+header, aside, .sectionblock1, .sectionblock2 ,.footersection1, .footersection2 {
+    padding:20px;
+}
+.footersection2 img{
+    margin-bottom:20px;
+}
+header{
+    font-size: xx-large;
+}
+.sectionblock1 h4{
+    margin-left:20px;
+    font-size: 16px;
+}
+.functioninfo{
+    margin-left:40px;
+}
+
+@media(min-width:800px){
+
+}
+@media(min-width:1200px){
+    .footersection2 img{
+        padding-right:20px;
+    }
+}

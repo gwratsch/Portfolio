@@ -1,0 +1,23 @@
+body{
+    padding:20px;
+}
+
+section .modal-body img{
+    width: 100%;
+    height:auto;
+}
+
+
+section img{
+    width:200px;
+    height:auto;
+}
+.projectitem{
+    min-height:150px;
+    
+}
+@media (min-width: 768px){
+    .modal-open .modal-dialog {
+        max-width: 80%;
+    }
+} 
