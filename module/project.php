@@ -24,7 +24,7 @@ if(array_key_exists("namerequest", $_POST)){
        // require_once 'modules/project.php';
         $namerequest = $_POST['namerequest'];
         
-        $path="D:/wamp/www/cg/projectinfo.txt";
+        $path="projectinfo.txt";
         switch ($namerequest) {
             case "displayblock":
                 $idName = $_POST['request'];
@@ -127,9 +127,9 @@ function readProjectFormResult($path){
     return $result;
 }
 function reorderprojects(){
-    $path="D:/wamp/www/cg/projectinfo.txt";
+    $path="projectinfo.txt";
     $projectList = readProjectFormResult($path);
-    $sortlist=array();
+    $sortlist= $orderedList =array();
     foreach ($projectList as $key => $value) {
         $sortlist[]= array(
             $key=>$value
