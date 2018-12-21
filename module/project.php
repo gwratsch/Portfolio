@@ -48,11 +48,24 @@ if(array_key_exists("namerequest", $_POST)){
     }
 
 function infoRequest($idName,$path){
-    $projectList = readProjectFormResult($path);
+    $projectList=array();
+    $path = '../'.$path;
+    printMessage('bestand controle: ',$path);
+    if(file_exists($path)){
+        printMessage('58 bestand gevonden: ',$path);
+        $projectfile= fopen($path,"r");
+        $status= fstat($projectfile);
+        $filesize = $status[7];
+        if(filesize($path)>0){
+            $projectList = json_decode(fread($projectfile, $filesize),true);
+            //printMessage('58 result', $projectList);
+            fclose($projectfile);
+        }
+    }else{printMessage('bestand niet gevonden: ',$path);}
     $alt='';
     $src="";
     $leftBodyContent ='';
-    printMessage('51', $projectList);
+    //printMessage('64 result', $projectList);
     foreach($projectList as $key =>$value){
         printMessage('54', $idName);
         printMessage('55', $key);
@@ -93,7 +106,7 @@ function infoRequest($idName,$path){
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>';
-echo $info;
+ echo $info;
 }
 function saveNewProject($path){
     $newproject = $_POST;
@@ -116,16 +129,20 @@ function saveProjectFormResult($path, $data){
 }
 function readProjectFormResult($path){
     $result=array();
+    $contenttext='';
     if(file_exists($path)){
         $projectfile= fopen($path,"r");
+        $status= fstat($projectfile);
+        $filesize = $status[7];
         if(filesize($path)>0){
-            $contenttext = fread($projectfile, filesize($path));
+            $contenttext = fread($projectfile, $filesize);
             $result = json_decode($contenttext, true);
         }
-        printMessage('130', $contenttext);
+        fclose($projectfile);
     }
     return $result;
 }
+
 function reorderprojects(){
     $path="projectinfo.txt";
     $projectList = readProjectFormResult($path);
@@ -144,5 +161,5 @@ function reorderprojects(){
     return $orderedList;
 }
 function printMessage($rownum, $message){
-    //print_r("<pre> ".$rownum.": ".print_r($message,true)."</pre>");
+   // print_r($rownum.": <pre> ".print_r($message,true)."</pre>");
 }
