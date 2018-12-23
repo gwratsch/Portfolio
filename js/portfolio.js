@@ -16,20 +16,34 @@ function selectblock(IdName){
     }
 
 }
+function selectprojext(projectName){
+
+    var url = '/module/project.php';
+	var name = "selectprojectform";
+	var request = projectName;
+        var content='';
+	data = "namerequest="+ name+"&request="+ projectName;
+    posttextData(url, data)
+     .then(function(result){
+         $('form').replaceWith(result);
+        
+      });
+
+
+}
 
 function getInfo(data,idBlockName,name){
     var url = '/module/project.php';
     posttextData(url, data)
      .then(function(result){
         if(name =="displayblock"){
-            //var addcontent = '<div class="modal fade" id="'+idBlockName+'" role="dialog" style="display:none;">';
             var addcontent = '<div class="modal" id="'+idBlockName+'">';
             addcontent += ' <div class="modal-dialog"><div class="modal-content">'+result+' </div></div></div>';
             $('section').append(addcontent);
             console.log($("#"+idBlockName));
             $("#"+idBlockName).modal();
         }
-        if(name =="addproject" || name =="addhome"){
+        if(name =="addproject" || name =="addhome" || name =="changeproject"){
             $('section').replaceWith(result);
         }
      });
@@ -69,6 +83,13 @@ function addproject(){
 function addhome(){
 	var name = "addhome";
 	var request = "addhome";
+        var content='';
+	data = "namerequest="+ name+"&request="+ request;
+	getInfo(data, content, name);
+}
+function changeproject(){
+	var name = "changeproject";
+	var request = "changeproject";
         var content='';
 	data = "namerequest="+ name+"&request="+ request;
 	getInfo(data, content, name);

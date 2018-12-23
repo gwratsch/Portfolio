@@ -1,7 +1,7 @@
 <?php
 if(array_key_exists("namerequest", $_POST)){
         require_once 'module/project.php';
-        if($_POST['namerequest'] == "addproject" || $_POST['namerequest'] == "addhome" ){
+        if($_POST['namerequest'] == "addproject" || $_POST['namerequest'] == "addhome" || $_POST['namerequest'] == "changeproject" ){
             $idName = $_POST['request'];
             $path="projectinfo.txt";
             infoRequest($idName, $path);

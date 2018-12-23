@@ -1,1 +1,1 @@
-{"HTML":"on","CSS":"on","Javascript":"on","submit":"Verzenden"}
+{"HTML":"on","CSS":"on","Bootstrap":"on","Javascript":"on","Scrum":"on","IDE":"on","Version_control":"on","submit":"Verzenden"}

@@ -36,9 +36,20 @@ if(array_key_exists("namerequest", $_POST)){
             case "addhome":
                 include '../section.php';
                 break;
+            case "changeproject":
+                include '../changeproject.php';
+                break;
             case "addprojectform":
                 saveNewProject($path);
                 printMessage("38", "saveNewProject word aangeroepen.");
+                break;
+            case "changeprojectform":
+                changeProject($path);
+                printMessage("38", "changeProject word aangeroepen.");
+                break;
+            case "selectprojectform":
+                include '../selectprojectinfo.php';
+                printMessage("38", "changeProject word aangeroepen.");
                 break;
             default:
                 break;
@@ -58,14 +69,12 @@ function infoRequest($idName,$path){
         $filesize = $status[7];
         if(filesize($path)>0){
             $projectList = json_decode(fread($projectfile, $filesize),true);
-            //printMessage('58 result', $projectList);
             fclose($projectfile);
         }
     }else{printMessage('bestand niet gevonden: ',$path);}
     $alt='';
     $src="";
     $leftBodyContent ='';
-    //printMessage('64 result', $projectList);
     foreach($projectList as $key =>$value){
         printMessage('54', $idName);
         printMessage('55', $key);
@@ -75,14 +84,14 @@ function infoRequest($idName,$path){
             $leftBodyContent ="<h2>Doel</h2><br /><p>".$value['purpose']."</p><h2>CMS</h2><ul>";
             $cmsnamelist = cmslist();        
             foreach($cmsnamelist as $keyname=>$keyvalue){
-                if(array_key_exists($keyname, $value)){
+                if(array_key_exists($keyname, $value)  && $value[$keyname] == 'on'){
                     $leftBodyContent .= "<li>".$keyvalue."</li>";
                 }
             }
             $leftBodyContent .="</ul><h2>Tools</h2><ul>";
             $toolsnamelist = toolslist();        
             foreach($toolsnamelist as $keyname=>$keyvalue){
-                if(array_key_exists($keyname, $value)){
+                if(array_key_exists($keyname, $value) && $value[$keyname] == 'on'){
                     $leftBodyContent .= "<li>".$keyvalue."</li>";
                 }
             }
@@ -110,9 +119,6 @@ function infoRequest($idName,$path){
 }
 function saveNewProject($path){
     $newproject = $_POST;
-    //foreach ($_POST as $key => $value) {
-    //    $newproject[$key]=$value;
-    //}
     $sitename = $newproject['sitename'];
     $sitename = str_replace(".", "_", str_replace(" ", "_", $sitename));
     $savedProjects = readProjectFormResult($path);
@@ -120,7 +126,35 @@ function saveNewProject($path){
     printMessage("115", "saveNewProject is uitgevoerd.");
     saveProjectFormResult($path, $savedProjects);
 }
-
+function changeProject($path){
+    
+    $changeproject = $_POST;
+    removeFormItems($_POST);
+    removeFormItems($changeproject);
+    $passwd = hash("sha256",$changeproject['pwd']);
+    $pwcheck = "7bd651dbebf50a13a699f5c994b78d9444815eb5890d639243fda810d161d03c";
+    if($passwd == $pwcheck){
+        $sideid = $changeproject['request'];
+        $Projectslist = readProjectFormResult($path);
+        if(array_key_exists($sideid, $Projectslist)){
+            foreach($Projectslist[$sideid] as $keyname=>$keyvalue){
+                if(array_key_exists($keyname, $changeproject)){
+                    $Projectslist[$sideid][$keyname]=$changeproject[$keyname];
+                }else{
+                    $Projectslist[$sideid][$keyname]='';
+                }
+            }
+        }
+        printMessage("115", "changeProject is uitgevoerd.");
+        saveProjectFormResult($path, $Projectslist);
+    }else{
+        echo "U bent niet bevoegd om gegevens aan te passen.";
+    }
+}
+function removeFormItems($array){
+        unset($array['pwd']);
+        unset($array['submit']);    
+}
 function saveProjectFormResult($path, $data){
     $projectfile = fopen($path,'w');
     $content = json_encode($data);
@@ -142,7 +176,25 @@ function readProjectFormResult($path){
     }
     return $result;
 }
-
+function selectprojectform(){
+    $projectname = $_POST['request'];
+    $path="../projectinfo.txt";
+    $result=array();
+    $contenttext='';
+    if(file_exists($path)){
+        $projectfile= fopen($path,"r");
+        $status= fstat($projectfile);
+        $filesize = $status[7];
+        if(filesize($path)>0){
+            $contenttext = fread($projectfile, $filesize);
+            $result = json_decode($contenttext, true);
+        }
+        fclose($projectfile);
+    }
+    $result = $result[$projectname];
+    $result['sideid'] = $projectname;
+    return $result;
+}
 function reorderprojects(){
     $path="projectinfo.txt";
     $projectList = readProjectFormResult($path);
