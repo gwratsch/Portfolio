@@ -16,7 +16,8 @@ function toolslist(){
         "php"=>"PHP",
         "ajax"=>"Ajax",
         "bootstrap"=>"Bootstrap",
-        "git"=>"Git"
+        "git"=>"Git",
+        "uml"=>"Plant UML"
     );
     return $tools;
 }
