@@ -1,1 +1,1 @@
-{"HTML":"on","CSS":"on","Bootstrap":"on","Javascript":"on","Scrum":"on","IDE":"on","Version_control":"on","submit":"Verzenden"}
+{"HTML":"on","CSS":"on","Bootstrap":"on","Javascript":"on","PHP":"on","Laravel":"on","MySQL":"on","Scrum":"on","IDE":"on","Version_control":"on","Cloud_deployment":"on","OWASP_websecurity":"on","Self_improvement":"on","Communication":"on","Problem_solving":"on","submit":"Verzenden"}

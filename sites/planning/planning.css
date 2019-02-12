@@ -34,7 +34,15 @@ header h1{
     padding: 10px;
     margin: 10px 3%;
     min-width: 250px;
+    
 }
+#onderwerpen .formblock{
+    min-height: 380px;
+}
+#homepage .formblock{
+    min-height: 180px;
+}
+
 section div{
     min-height: 100px;
 }

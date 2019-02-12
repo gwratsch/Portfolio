@@ -18,7 +18,7 @@
         <link rel='stylesheet' href="planning.css">
         <script src="planning.js"></script>
     </head>
-    <body>
+    <body id="onderwerpen">
         <header class="headerblock">
             <h1>Onderwerpen beheer</h1>
             <img src="gratsch.jpg" alt="Picture G Ratsch">
